@@ -6,8 +6,11 @@ import com.shiv.instacompose.domain.model.UserProfile
 import com.shiv.instacompose.domain.repository.UserProfileRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserProfileRepositoryImp constructor(private val userApiService: UserApiService) :
+@Singleton
+class UserProfileRepositoryImp @Inject constructor(private val userApiService: UserApiService) :
     UserProfileRepository {
     override fun getUserProfile(): Flow<UserProfile> {
         return flow { }
