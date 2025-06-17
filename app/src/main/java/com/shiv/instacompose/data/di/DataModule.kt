@@ -17,7 +17,7 @@ interface DataModule {
     fun provideUserProfileRepository(userProfileRepository: UserProfileRepositoryImp): UserProfileRepository
 
     @Binds
-    fun provideUserProfileRepository(userProfileUseCaseImp: UserProfileUseCaseImp): UserProfileUseCase
+    fun provideUserProfileUseCase(userProfileUseCaseImp: UserProfileUseCaseImp): UserProfileUseCase
 
 
 }
