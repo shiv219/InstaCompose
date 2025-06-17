@@ -66,6 +66,11 @@ dependencies {
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.coil.kt.compose)
 
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+
     implementation(libs.hilt.android.v2511)
     implementation(libs.androidx.hilt.navigation.compose)
     kapt(libs.hilt.android.compiler.v2511)
