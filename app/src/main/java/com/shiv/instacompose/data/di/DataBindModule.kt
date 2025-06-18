@@ -1,5 +1,7 @@
 package com.shiv.instacompose.data.di
 
+import com.shiv.instacompose.data.filereader.JsonProvider
+import com.shiv.instacompose.data.filereader.ResourceJsonProvider
 import com.shiv.instacompose.data.repository.UserProfileRepositoryImp
 import com.shiv.instacompose.data.usecase.UserProfileUseCaseImp
 import com.shiv.instacompose.domain.repository.UserProfileRepository
@@ -24,4 +26,6 @@ interface  DataBindModule {
     @Binds
     fun provideUserProfileUseCase(userProfileUseCaseImp: UserProfileUseCaseImp): UserProfileUseCase
 
+    @Binds
+    fun provideJsonProvider(resourceJsonProvider: ResourceJsonProvider): JsonProvider
 }

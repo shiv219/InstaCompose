@@ -100,6 +100,7 @@ dependencies {
     // Required -- JUnit 4 framework
     testImplementation (libs.junit)
     // Optional -- Robolectric environment
+    testImplementation (libs.robolectric)
     testImplementation (libs.core.ktx)
     // Optional -- Mockk framework
     testImplementation (libs.mockk)

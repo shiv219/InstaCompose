@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import com.shiv.instacompose.data.local.entity.UserProfileEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserProfileDao {
@@ -12,6 +13,8 @@ interface UserProfileDao {
     fun insertUser(userProfileEntity: UserProfileEntity)
 
     @Query("Select * From profile")
-    fun getUserDetail(): UserProfileEntity
+    fun getUserDetail(): Flow<UserProfileEntity>
 
+    @Query("Delete From profile")
+    fun clearProfile()
 }
