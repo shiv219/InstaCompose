@@ -1,0 +1,18 @@
+package com.shiv.instacompose.data.local.entity
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity (tableName = "profile")
+data class UserProfileEntity (
+    @PrimaryKey
+    val id: String,
+    val name: String,
+    val userName: String,
+    val profileThumbUrl: String,
+    val profileImageUrl: String,
+    val postsCount: String,
+    val followerCount: String,
+    val followingCount: String,
+    val bio: String
+)
