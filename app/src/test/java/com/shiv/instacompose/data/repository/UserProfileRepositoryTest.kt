@@ -32,13 +32,8 @@ import org.junit.Assert.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
 import kotlin.test.assertFailsWith
 
-@RunWith(RobolectricTestRunner::class)
-@Config(manifest = Config.NONE)
 class UserProfileRepositoryTest {
     private lateinit var apiService: UserApiService
     private lateinit var appDatabase: AppDatabase

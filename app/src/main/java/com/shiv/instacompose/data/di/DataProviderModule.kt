@@ -35,10 +35,9 @@ class DataProviderModule {
     @Provides
     @Singleton
     fun provideRetrofitClient(
-        okhttpClient: OkHttpClient,
         converterFactory: GsonConverterFactory
     ): Retrofit {
-        return Retrofit.Builder().baseUrl(BASE_URL).client(okhttpClient)
+        return Retrofit.Builder().baseUrl(BASE_URL)
             .addConverterFactory(converterFactory).build()
     }
 

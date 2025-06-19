@@ -12,6 +12,7 @@ interface RemoteKeyDao {
 
     @Query("Select * From remote_key where postId = :id")
     suspend fun getRemoteKeyByPostId(id: String): RemoteKeys?
+
     @Query("Delete From remote_key")
     suspend fun clearAllKeys()
 }

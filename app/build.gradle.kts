@@ -18,7 +18,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.shiv.instacompose.HiltTestRunner"
     }
 
     buildTypes {
@@ -92,6 +92,9 @@ dependencies {
     androidTestImplementation(libs.androidx.test.rules)
     androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.compose.ui.test)
+    androidTestImplementation(kotlin("test"))
+    androidTestImplementation(libs.turbine)
+
 
 
     testImplementation(kotlin("test"))

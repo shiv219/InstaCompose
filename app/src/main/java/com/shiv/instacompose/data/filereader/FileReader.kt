@@ -1,5 +1,6 @@
 package com.shiv.instacompose.data.filereader
 import com.google.gson.Gson
+import jakarta.inject.Inject
 import java.io.FileNotFoundException
 import java.lang.reflect.Type
 
@@ -16,7 +17,7 @@ import java.lang.reflect.Type
 //    return Gson().fromJson(json, T::class.java)
 //}
 
-class ResourceJsonProvider : JsonProvider {
+class ResourceJsonProvider @Inject constructor() : JsonProvider {
     override fun <T> fromFile(fileName: String, clazz: Type): T {
         val json = javaClass.classLoader!!
             .getResourceAsStream(fileName)?.bufferedReader()?.readText()
