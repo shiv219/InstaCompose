@@ -9,6 +9,7 @@ import com.shiv.instacompose.domain.model.UserProfile
 import com.shiv.instacompose.domain.model.UsersStory
 import com.shiv.instacompose.domain.usecase.UserProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -35,6 +36,11 @@ class UserProfileViewModel @Inject constructor(
 
     val selectedTab = mutableStateOf(ProfileTab.Posts)
 
+    val _isRefreshing = MutableStateFlow(false)
+
+    init {
+        getUsersStory()
+    }
     fun refreshUserProfileDetails(){
         viewModelScope.launch(defaultDispatchers.io) {
         useCase.refreshUserProfile()
@@ -57,7 +63,21 @@ class UserProfileViewModel @Inject constructor(
         viewModelScope.launch(defaultDispatchers.io) {
             useCase.getUserStory().collectLatest {
                 userStoryState_.value = UiState.Success(it)
+
+
             }
+        }
+    }
+    fun onPullToRefreshTrigger() {
+        _isRefreshing.value =  true
+        viewModelScope.launch {
+            refreshUserProfileDetails()
+            refreshUserStory()
+            /**
+             * Added delay to simulate the behaviour of api call
+             */
+            delay(1000)
+            _isRefreshing.value = false
         }
     }
 

@@ -77,7 +77,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.coil.kt.compose)
     implementation( libs.androidx.paging.compose)
-
+    implementation(libs.androidx.foundation)
 
     implementation(libs.retrofit)
     implementation(libs.converter.gson)

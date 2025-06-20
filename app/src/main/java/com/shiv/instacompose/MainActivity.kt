@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.shiv.instacompose.ui.InstaComposeApp
 import com.shiv.instacompose.ui.screen.profile.UserProfileScreen
 import com.shiv.instacompose.ui.theme.InstaComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,9 +15,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            InstaComposeTheme {
-                UserProfileScreen()
-            }
+            InstaComposeApp()
         }
     }
 }

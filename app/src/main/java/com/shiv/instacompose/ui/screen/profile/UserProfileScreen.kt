@@ -38,13 +38,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -72,25 +70,26 @@ import com.shiv.instacompose.domain.model.UserProfile
 import com.shiv.instacompose.domain.model.UsersPost
 import com.shiv.instacompose.domain.model.UsersStory
 import com.shiv.instacompose.ui.component.CircularImage
+import com.shiv.instacompose.ui.navigation.route.AppRoute
 import com.shiv.instacompose.ui.theme.Purple40
 
 
 @Preview
 @Composable
 fun UserProfileScreenPreview() {
-    UserProfileScreen()
+    UserProfileScreen({}, {})
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserProfileScreen() {
+fun UserProfileScreen(navigateTo: (String) -> Unit, navigateUp: () -> Unit) {
     val viewModel = hiltViewModel<UserProfileViewModel>()
     val userProfile = viewModel.userProfileState.collectAsStateWithLifecycle()
     val userStoryUiState = viewModel.usersStoryState.collectAsStateWithLifecycle()
     val userPost = viewModel.posts.collectAsLazyPagingItems()
     val selectedTab = viewModel.selectedTab
     val pagerState = rememberPagerState(initialPage = 0) { ProfileTab.entries.size }
-
+    val isRefreshing = viewModel._isRefreshing.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
         viewModel.getUsersProfile()
         viewModel.refreshUserProfileDetails()
@@ -103,6 +102,7 @@ fun UserProfileScreen() {
     LaunchedEffect(selectedTab.value) {
         pagerState.animateScrollToPage(selectedTab.value.ordinal)
     }
+
     Scaffold(
         topBar = {
             HandleProfileHeaderUiState(userProfile.value)
@@ -114,27 +114,34 @@ fun UserProfileScreen() {
             ) {
                 val screenHeight = maxHeight
                 val scrollState = rememberScrollState()
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(state = scrollState)
-                ) {
+                PullToRefreshBox(
+                    isRefreshing = isRefreshing.value,
+                    onRefresh = {
+                        userPost.refresh()
+                        viewModel.onPullToRefreshTrigger()
+                    }) {
                     Column(
                         modifier = Modifier
-                            .wrapContentSize()
-                            .padding(8.dp)
-                            .fillMaxWidth()
+                            .fillMaxSize()
+                            .verticalScroll(state = scrollState)
                     ) {
-                        HandleProfileDetailsUiState(userProfile.value)
-                        HandleStoryUiState(userStoryUiState.value)
-                    }
-                    Column(
-                        modifier = Modifier
-                            .padding(2.dp)
-                            .height(screenHeight)
-                    ) {
-                        StickyTab(selectedTab)
-                        Postspager(pagerState, scrollState, userPost)
+                        Column(
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .padding(8.dp)
+                                .fillMaxWidth()
+                        ) {
+                            HandleProfileDetailsUiState(userProfile.value)
+                            HandleStoryUiState(userStoryUiState.value, navigateTo)
+                        }
+                        Column(
+                            modifier = Modifier
+                                .padding(2.dp)
+                                .height(screenHeight)
+                        ) {
+                            StickyTab(selectedTab)
+                            Postspager(pagerState, scrollState, userPost)
+                        }
                     }
                 }
             }
@@ -182,11 +189,11 @@ private fun Postspager(
 }
 
 @Composable
-private fun HandleStoryUiState(value: UiState<List<UsersStory>>) {
+private fun HandleStoryUiState(value: UiState<List<UsersStory>>, navigateTo: (String) -> Unit) {
     when (value) {
         is UiState.Success -> {
             val stories = (value).data
-            UsersStoryHighlightSection(stories)
+            UsersStoryHighlightSection(stories, navigateTo)
         }
 
         else -> {
@@ -240,7 +247,9 @@ private fun HandleProfileDetailsUiState(userProfile: UiState<UserProfile>) {
 
 @Composable
 fun ProfileHeader(user: UserProfile) {
-    ConstraintLayout(modifier = Modifier.padding(top = 16.dp).fillMaxWidth()) {
+    ConstraintLayout(modifier = Modifier
+        .padding(top = 16.dp)
+        .fillMaxWidth()) {
         val (imgBack, txtUsername) = createRefs()
         Icon(
             imageVector = Icons.Default.ArrowBack,
@@ -374,7 +383,7 @@ fun FollowingMessageBar(modifier: Modifier) {
 }
 
 @Composable
-fun UsersStoryHighlightSection(highlights: List<UsersStory>) {
+fun UsersStoryHighlightSection(highlights: List<UsersStory>, navigateTo: (String) -> Unit) {
     LazyRow(
         modifier = Modifier
             .padding(bottom = 8.dp)
@@ -383,7 +392,11 @@ fun UsersStoryHighlightSection(highlights: List<UsersStory>) {
     ) {
         items(highlights.size) { index ->
             CircularImage(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clickable {
+                        navigateTo(AppRoute.STORY.withArgs(index.toString()))
+                    },
                 imageUrl = highlights[index].postThumb,
                 contentDescription = "Story Highlight"
             )
@@ -415,11 +428,12 @@ fun StickyTab(selectedTab: MutableState<ProfileTab>) {
 
             Box(
                 modifier = Modifier
+                    .padding(top = 8.dp)
                     .fillMaxWidth()
-                    .wrapContentSize(Alignment.BottomStart) // ✅ Align bottom
+                    .wrapContentSize(Alignment.BottomStart)
                     .offset(x = indicatorLeft)
                     .width(indicatorWidth)
-                    .height(2.dp) // ✅ Slim indicator height
+                    .height(2.dp)
                     .background(Color.White)
             )
         }
