@@ -11,14 +11,10 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
-/**
- * Putting BASE_URL here as const for now for simplicity
- * later we can add it in BuildConfig for product flavours
- */
-const val BASE_URL = "https://picsum.photos"
+
 @Module
 @InstallIn(SingletonComponent::class)
-interface  DataBindModule {
+interface DataBindModule {
 
     @Binds
     fun provideUserProfileRepository(userProfileRepository: UserProfileRepositoryImp): UserProfileRepository

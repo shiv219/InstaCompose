@@ -57,7 +57,7 @@ fun StoryPlayer(index: String, navigateTo: (String) -> Unit, navigateUp: () -> U
 
         AsyncImage(
             model = currentStory.value?.postUrl,
-            contentDescription = null,
+            contentDescription = "Story Player",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxSize()
@@ -65,7 +65,7 @@ fun StoryPlayer(index: String, navigateTo: (String) -> Unit, navigateUp: () -> U
         )
         // Progress bars
         if (stories.value.isNotEmpty())
-            StoryProgressIndicatorRow(stories.value.size, currentIndex.value, false, 5000, {
+            StoryProgressIndicatorRow(stories.value.size, currentIndex.value, false, 3000, {
                 if (currentIndex.value < stories.value.size - 1) {
                     currentIndex.value++
                 } else {
@@ -75,7 +75,7 @@ fun StoryPlayer(index: String, navigateTo: (String) -> Unit, navigateUp: () -> U
     }
     // Auto-advance logic
     LaunchedEffect(currentIndex.value) {
-        delay(5000)
+        delay(3000)
         if (currentIndex.value < stories.value.lastIndex) {
             currentIndex.value++
         } else {

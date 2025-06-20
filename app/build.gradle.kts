@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.paging.common.android)
     implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.navigation.testing.android)
     ksp(libs.androidx.room.compiler)
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.androidx.room.ktx)

@@ -17,12 +17,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
-@HiltAndroidTest
+
 class UserProfileDaoTest {
-
-    @get:Rule(order = 0)
-    val hiltRule = HiltAndroidRule(this)
-
     private lateinit var appDatabase: AppDatabase
     private lateinit var dao: UserProfileDao
 

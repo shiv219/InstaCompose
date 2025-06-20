@@ -15,11 +15,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-@HiltAndroidTest
 class UsersPostDaoTest {
-
-    @get:Rule
-    val hitRule = HiltAndroidRule(this)
 
     private lateinit var appDatabase: AppDatabase
     private lateinit var dao: UserPostDao

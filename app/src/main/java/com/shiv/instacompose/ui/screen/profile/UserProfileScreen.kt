@@ -1,5 +1,6 @@
 package com.shiv.instacompose.ui.screen.profile
 
+import androidx.activity.OnBackPressedCallback
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.spring
@@ -105,7 +106,7 @@ fun UserProfileScreen(navigateTo: (String) -> Unit, navigateUp: () -> Unit) {
 
     Scaffold(
         topBar = {
-            HandleProfileHeaderUiState(userProfile.value)
+            HandleProfileHeaderUiState(userProfile.value){}
         }, content = { innerpadding ->
             BoxWithConstraints(
                 modifier = Modifier
@@ -208,11 +209,11 @@ private fun HandleStoryUiState(value: UiState<List<UsersStory>>, navigateTo: (St
 }
 
 @Composable
-private fun HandleProfileHeaderUiState(userProfile: UiState<UserProfile>) {
+private fun HandleProfileHeaderUiState(userProfile: UiState<UserProfile>, onBackPress:()->Unit) {
     when (userProfile) {
         is UiState.Success -> {
             val user = (userProfile).data
-            ProfileHeader(user)
+            ProfileHeader(user, onBackPress)
         }
 
         else -> {
@@ -246,7 +247,7 @@ private fun HandleProfileDetailsUiState(userProfile: UiState<UserProfile>) {
 }
 
 @Composable
-fun ProfileHeader(user: UserProfile) {
+fun ProfileHeader(user: UserProfile, onBackPress: () -> Unit) {
     ConstraintLayout(modifier = Modifier
         .padding(top = 16.dp)
         .fillMaxWidth()) {
@@ -261,7 +262,9 @@ fun ProfileHeader(user: UserProfile) {
                     start.linkTo(parent.start)
                     top.linkTo(parent.top)
                 }
-                .clickable {}
+                .clickable {
+                    onBackPress()
+                }
         )
         Text(
             text = user.userName, modifier = Modifier

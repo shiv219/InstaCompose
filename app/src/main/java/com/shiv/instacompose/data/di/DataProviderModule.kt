@@ -14,6 +14,12 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+
+/**
+ * Putting BASE_URL here as const for now for simplicity
+ * later we can add it in BuildConfig for product flavours
+ */
+const val BASE_URL = "https://picsum.photos"
 @Module
 @InstallIn(SingletonComponent::class)
 class DataProviderModule {

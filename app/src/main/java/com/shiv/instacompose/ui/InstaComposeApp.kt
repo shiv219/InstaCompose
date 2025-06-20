@@ -1,6 +1,7 @@
 package com.shiv.instacompose.ui
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,9 +15,9 @@ import com.shiv.instacompose.ui.screen.profile.UserProfileScreen
 import com.shiv.instacompose.ui.theme.InstaComposeTheme
 
 @Composable
-fun InstaComposeApp() {
+fun InstaComposeApp(appNavController:AppNavController = rememberAppNavController()) {
     InstaComposeTheme {
-        val appNavController = rememberAppNavController()
+
         NavHost(
             navController = appNavController.navController,
             startDestination = AppRoute.PROFILE.route
