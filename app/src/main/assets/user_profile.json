@@ -1,11 +1,11 @@
 {
   "id": "u1",
-  "name": "Shiv",
+  "name": "Shiv Shanker Kumar",
   "userName": "shiv_yadav",
-  "profileThumbUrl": "image_url",
-  "profileImageUrl": "image_url",
+  "profileThumbUrl": "https://picsum.photos/id/27/3264/1836",
+  "profileImageUrl": "https://picsum.photos/id/27/3264/1836",
   "postsCount": "30",
   "followerCount": "490",
   "followingCount": "789",
-  "bio": "Software Engineer"
+  "bio": "#Software Engineer| #Mobile Developer| Building Android apps using Kotlin, Jetpack Compose, MVVM/MVI, Hilt, UnitTesting, ExoPlayer, KMP. "
 }

@@ -1,7 +1,9 @@
-package com.shiv.instacompose.ui.screen
+package com.shiv.instacompose.ui.screen.profile
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.shiv.instacompose.core.DispatcherProvider
 import com.shiv.instacompose.domain.model.UserProfile
 import com.shiv.instacompose.domain.model.UsersStory
@@ -29,13 +31,19 @@ class UserProfileViewModel @Inject constructor(
     private val userStoryState_ = MutableStateFlow<UiState<List<UsersStory>>>(UiState.Loading)
     val usersStoryState = userStoryState_.asStateFlow()
 
-    val posts =  useCase.getUsersPost().flowOn(defaultDispatchers.io)
+    val posts =  useCase.getUsersPost().cachedIn(viewModelScope)
+
+    val selectedTab = mutableStateOf(ProfileTab.Posts)
 
     fun refreshUserProfileDetails(){
+        viewModelScope.launch(defaultDispatchers.io) {
         useCase.refreshUserProfile()
+        }
     }
     fun refreshUserStory(){
-        useCase.refreshUserStory()
+        viewModelScope.launch(defaultDispatchers.io) {
+            useCase.refreshUserStory()
+        }
     }
 
     fun getUsersProfile() {

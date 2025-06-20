@@ -1,4 +1,4 @@
-package com.shiv.instacompose.ui.screen
+package com.shiv.instacompose.ui.screen.profile
 
 sealed class UiState<out T> {
     object Loading : UiState<Nothing>()

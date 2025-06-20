@@ -43,8 +43,8 @@ class UserPostRemoteMediator @Inject constructor(
                 }
             }
 
-            val userPostApiResponse = apiService.getUserPosts(page = page, 20)
-            val endOfPagination = userPostApiResponse.posts.isEmpty()
+            val userPostApiResponse = apiService.getUserPosts(page = page+2, 20)
+            val endOfPagination = userPostApiResponse.isEmpty()
             appDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     appDatabase.getRemoteKeyDao().clearAllKeys()
@@ -52,9 +52,9 @@ class UserPostRemoteMediator @Inject constructor(
                 }
                 val preKey = if (page > 1) page - 1 else null
                 val nextKey = if (endOfPagination) null else page + 1
-                val remoteKeys = userPostApiResponse.posts.map {
+                val remoteKeys = userPostApiResponse.map {
                     RemoteKeys(
-                        postId = it.postId,
+                        postId = it.id,
                         prevKey = preKey,
                         currentPage = page,
                         nextKey = nextKey

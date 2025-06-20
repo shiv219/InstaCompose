@@ -12,7 +12,7 @@ interface UserPostDao {
     @Upsert
     fun insertAll(remoteKey: List<UsersPostEntity>)
 
-    @Query("Select * From post")
+    @Query("Select * From post Order by page")
     fun getUsersPostPagingSource(): PagingSource<Int, UsersPostEntity>
 
     @Query("Delete From post")

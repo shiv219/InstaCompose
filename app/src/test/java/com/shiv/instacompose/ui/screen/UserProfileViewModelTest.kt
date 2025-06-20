@@ -7,6 +7,8 @@ import com.shiv.instacompose.domain.model.UserProfile
 import com.shiv.instacompose.domain.model.UsersStory
 import com.shiv.instacompose.domain.usecase.UserProfileUseCase
 import com.shiv.instacompose.rule.MainDispatcherRule
+import com.shiv.instacompose.ui.screen.profile.UiState
+import com.shiv.instacompose.ui.screen.profile.UserProfileViewModel
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll

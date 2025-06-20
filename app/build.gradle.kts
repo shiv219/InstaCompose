@@ -76,6 +76,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.coil.kt.compose)
+    implementation( libs.androidx.paging.compose)
 
 
     implementation(libs.retrofit)

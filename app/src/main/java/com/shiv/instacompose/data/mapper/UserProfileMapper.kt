@@ -1,25 +1,24 @@
 package com.shiv.instacompose.data.mapper
 
 import com.shiv.instacompose.data.local.entity.UsersPostEntity
-import com.shiv.instacompose.data.remote.dtomodel.TimelineDto
+import com.shiv.instacompose.data.remote.dtomodel.UsersPostDto
 import com.shiv.instacompose.domain.model.UsersPost
 
 
-fun TimelineDto.toUsersPostEntity(): List<UsersPostEntity> {
+fun List<UsersPostDto>.toUsersPostEntity(): List<UsersPostEntity> {
     val list = arrayListOf<UsersPostEntity>()
-    posts.forEach {
+    this.forEach {
         list.add(
             UsersPostEntity(
-                postId = it.postId,
-                userId = it.userId,
-                createdAt = it.createdAt,
-                postThumb = it.postThumb,
-                postUrl = it.postUrl,
+                postId = it.id,
+                userId = it.author,
+                createdAt = 0L,
+                postThumb = it.download_url,
+                postUrl = it.download_url,
                 page = 0
             )
         )
     }
-
     return list
 }
 
