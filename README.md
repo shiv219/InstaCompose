@@ -35,7 +35,7 @@ Hilt for dependency injection
 Navigation-Compose                                                                                                                  
 StateFlow, collectAsStateWithLifecycle                                                                                                          
 ## ✅ Testing                                                                                                        
-Unit tests for ViewModel                                                                                                           
+Unit tests for ViewModel, Repository, Room, Coroutine, PagingData                                                                                                             
 UI tests for Composables and navigation                                                                                                                   
 ## 🏗️ Architecture                                                                                                                                     
 Follows Clean Architecture principles                                                                                                                                  
@@ -79,8 +79,6 @@ git https://github.com/shiv219/InstaCompose
 1.  In Android Studio, go to File -> New -> Import project
 2.  Follew the dialog wizard to choose the folder where you cloned the project and click on open.
 3.  Android Studio imports the projects and builds it for you
-
-
 
 ## 🤝 How to Contribute
 1.  Fork it
