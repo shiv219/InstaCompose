@@ -13,7 +13,7 @@ interface UserProfileDao {
     fun insertUser(userProfileEntity: UserProfileEntity)
 
     @Query("Select * From profile")
-    fun getUserDetail(): Flow<UserProfileEntity>
+    fun getUserDetail(): Flow<UserProfileEntity?>
 
     @Query("Delete From profile")
     fun clearProfile()

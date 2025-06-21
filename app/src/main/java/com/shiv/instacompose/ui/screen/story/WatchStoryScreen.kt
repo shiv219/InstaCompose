@@ -39,6 +39,9 @@ fun StoryPlayer(index: String, navigateTo: (String) -> Unit, navigateUp: () -> U
     val currentIndex = remember { mutableStateOf(index.toInt()) }
     val stories = remember { mutableStateOf<List<UsersStory>>(emptyList()) }
 
+    LaunchedEffect(viewModel) {
+        viewModel.getUsersStory()
+    }
     LaunchedEffect(storyState.value) {
         if (storyState.value is UiState.Success)
             stories.value = (storyState.value as UiState.Success).data.toMutableList()

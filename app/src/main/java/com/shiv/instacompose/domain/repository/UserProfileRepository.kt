@@ -7,7 +7,7 @@ import com.shiv.instacompose.domain.model.UsersStory
 import kotlinx.coroutines.flow.Flow
 
 interface UserProfileRepository {
-    fun getUserProfile():Flow<UserProfile>
+    fun getUserProfile(): Flow<UserProfile?>
     fun refreshUserProfile()
     fun getUsersPost(): Flow<PagingData<UsersPost>>
 

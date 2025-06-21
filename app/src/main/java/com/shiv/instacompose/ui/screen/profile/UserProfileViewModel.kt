@@ -13,7 +13,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -38,9 +37,6 @@ class UserProfileViewModel @Inject constructor(
 
     val _isRefreshing = MutableStateFlow(false)
 
-    init {
-        getUsersStory()
-    }
     fun refreshUserProfileDetails(){
         viewModelScope.launch(defaultDispatchers.io) {
         useCase.refreshUserProfile()
@@ -54,8 +50,10 @@ class UserProfileViewModel @Inject constructor(
 
     fun getUsersProfile() {
         viewModelScope.launch(defaultDispatchers.io) {
-            useCase.getUserProfile().collectLatest {
-                userProfileState_.value = UiState.Success(it)
+            useCase.getUserProfile().collectLatest { collected->
+                collected?.let {
+                    userProfileState_.value = UiState.Success(it)
+                }
             }
         }
     }

@@ -22,6 +22,7 @@ import com.shiv.instacompose.domain.model.UsersPost
 import com.shiv.instacompose.domain.model.UsersStory
 import com.shiv.instacompose.domain.repository.UserProfileRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -36,8 +37,9 @@ class UserProfileRepositoryImp @Inject constructor(
     /**
      * function to get user details from local db
      */
-    override fun getUserProfile(): Flow<UserProfile> {
-        return appDatabase.getUserProfileDao().getUserDetail().map { it.toUserProfile()}
+    override fun getUserProfile(): Flow<UserProfile?> {
+        return appDatabase.getUserProfileDao().getUserDetail().map { it?.toUserProfile()}.catch { emit(null)
+        }
     }
     /** function used for refreshing the user data from api call
      * Since we don't have an api here hence adding mock response

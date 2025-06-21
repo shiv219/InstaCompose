@@ -32,12 +32,9 @@ class UserProfileDaoTest {
     }
 
     @Test
-    fun getUserProfile_throws_error_initially_when_dab_has_no_data() = runTest {
-        val exception =  assertFailsWith<IllegalStateException> {
-             dao.getUserDetail().firstOrNull()
-         }
-        assertTrue { exception.message!!.contains("The query result was empty") }
-    }
+    fun getUserProfile_emits_null_initially_when_dab_has_no_data() = runTest {
+        val resultAfterDelete = dao.getUserDetail().firstOrNull()
+        assertEquals(null, resultAfterDelete) }
     
     @Test
     fun insertUserProfileTest() = runTest{
@@ -74,11 +71,8 @@ class UserProfileDaoTest {
         assertEquals(user,result)
 
         dao.clearProfile()
-
-      val exception = assertFailsWith<IllegalStateException> {
-           dao.getUserDetail().first()
-       }
-        assertTrue { exception.message!!.contains("The query result was empty") }
+        val resultAfterDelete = dao.getUserDetail().firstOrNull()
+        assertEquals(null, resultAfterDelete)
     }
     @Test
     fun insertUserProfile_then_update_User_Test() = runTest{
@@ -95,7 +89,7 @@ class UserProfileDaoTest {
         )
         dao.insertUser(user)
         val result = dao.getUserDetail().first()
-        assertEquals("Shiv",result.name)
+        assertEquals("Shiv",result?.name)
 
         val updatedUser = UserProfileEntity(
             id = "1",
@@ -110,7 +104,7 @@ class UserProfileDaoTest {
         )
         dao.insertUser(updatedUser)
         val updatedResult = dao.getUserDetail().first()
-        assertEquals("Sameer",updatedResult.name)
+        assertEquals("Sameer",updatedResult?.name)
     }
 
     @After

@@ -13,7 +13,7 @@ import javax.inject.Singleton
 @Singleton
 class UserProfileUseCaseImp @Inject constructor(private val repository: UserProfileRepository) :
     UserProfileUseCase {
-    override fun getUserProfile(): Flow<UserProfile> {
+    override fun getUserProfile(): Flow<UserProfile?> {
         return repository.getUserProfile()
     }
 

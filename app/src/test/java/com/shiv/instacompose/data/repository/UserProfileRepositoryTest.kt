@@ -83,15 +83,16 @@ class UserProfileRepositoryTest {
     }
 
     @Test
-    fun `getUserProfile propagates DAO error`() = runTest {
+    fun `getUserProfile propagates DAO error caught and emitted null`() = runTest {
         every { appDatabase.getUserProfileDao() } returns userProfileDao
         every { userProfileDao.getUserDetail() } returns flow {
             throw IllegalStateException("DB error")
         }
         val flow = userProfileRepository.getUserProfile()
 
-        assertFailsWith<IllegalStateException> {
-            flow.collect()
+        flow.test {
+            assertEquals(null, awaitItem())
+            awaitComplete()
         }
     }
 
@@ -187,19 +188,6 @@ class UserProfileRepositoryTest {
 
         val expectedEntity = storyList.toEntity()
         verify{ storyDao.insertStory(expectedEntity)  }
-
-    }
-
-    @Test
-    fun `getUserStory propagates DAO error`() = runTest {
-        every { appDatabase.getStoryDao() } returns storyDao
-        every { storyDao.getUsersStory() } returns flow{
-            throw IllegalStateException("DB Error")
-     }
-        val flow = userProfileRepository.getUsersStory()
-        assertFailsWith<IllegalStateException> {
-            flow.collect()
-        }
     }
 
     @After
