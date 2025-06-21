@@ -72,7 +72,7 @@ Follow these steps if you want to get a local copy of the project on your machin
 
 #### 1. Clone or fork the repository by running the command below	
 ```
-git [https://github.com/shiv219/InstaCompose]
+git https://github.com/shiv219/InstaCompose
 ```
 
 #### 2. Import the project in AndroidStudio
