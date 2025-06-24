@@ -55,6 +55,14 @@ jobs:
           profile: Pixel_3a
           script: ./gradlew connectedDebugAndroidTest --stacktrace
 
+      - name: Show emulator logs if failure
+        if: failure()
+        run: |
+          echo "Emulator logs:"
+          cat ~/.android/avd/*.ini || true
+          ls -l ~/.android/avd || true
+          dmesg | tail -n 100 || true
+
       - name: Upload Instrumented Test Report
         if: always()
         uses: actions/upload-artifact@v4
