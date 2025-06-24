@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    id("jacoco")
 }
 
 android {
@@ -110,4 +111,35 @@ dependencies {
     // Optional -- Mockk framework
     testImplementation (libs.mockk)
     androidTestImplementation(libs.hilt.android.testing)
+}
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("testDebugUnitTest")
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+
+    val fileFilter = listOf(
+        "**/R.class",
+        "**/R$*.class",
+        "**/BuildConfig.*",
+        "**/Manifest*.*",
+        "**/*Test*.*"
+    )
+
+
+    val kotlinClasses = fileTree("$buildDir/tmp/kotlin-classes/debug") {
+        exclude(fileFilter)
+    }
+    val javaClasses = fileTree("$buildDir/intermediates/javac/debug/classes") {
+        exclude(fileFilter)
+    }
+    classDirectories.setFrom(files(kotlinClasses, javaClasses))
+
+    sourceDirectories.setFrom(files("src/main/java", "src/main/kotlin"))
+    executionData.setFrom(fileTree(buildDir).include(
+        "jacoco/testDebugUnitTest.exec"
+    ))
 }
