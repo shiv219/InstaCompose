@@ -56,7 +56,12 @@ jobs:
           force-avd-creation: true
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: ./gradlew connectedDebugAndroidTest --stacktrace
+          script: |
+            adb wait-for-device
+            adb shell settings put global window_animation_scale 0.0 || true
+            adb shell settings put global transition_animation_scale 0.0 || true
+            adb shell settings put global animator_duration_scale 0.0 || true
+            ./gradlew connectedDebugAndroidTest --stacktrace
 
       - name: Show emulator logs if failure
         if: failure()
